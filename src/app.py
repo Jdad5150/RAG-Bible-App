@@ -7,8 +7,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# Set working directory
-os.chdir('/home/jesse/dev/projects/kjv-rag')
 
 # Cache expensive operations
 @st.cache_data
