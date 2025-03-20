@@ -27,54 +27,55 @@ if 'user_query' not in st.session_state:
 
 # Function to send email
 def send_email(user_query, retrieved_context, cohere_response, user_name , user_feedback):
-    sender_email = "jjvlittle@gmail.com" 
-    receiver_email = "jjvlittle@gmail.com" 
-    password = "zaij hysy scva vfos"
+    with st.spinner("Sending feedback..."):
+        sender_email = "jjvlittle@gmail.com" 
+        receiver_email = "jjvlittle@gmail.com" 
+        password = "zaij hysy scva vfos"
 
-    # Create the email
-    subject = "User Feedback from Bible Quest"
-    body = f"""
-    <html>
-    <body>
-        <h2 style="color: #4CAF50;">User Feedback from Bible Search Engine</h2>
-        
-        <h3 style="color: #333;">User Details</h3>
-        <p><strong>Name:</strong> {user_name}</p>
-        
-        <h3 style="color: #333;">User Query</h3>
-        <p style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">{user_query}</p>
-        
-        <h3 style="color: #333;">Retrieved Context</h3>
-        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-            {retrieved_context.replace("\n", "<br>")}
-        </div>
-        
-        <h3 style="color: #333;">AI Response</h3>
-        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
-            {cohere_response.replace("\n", "<br>")}
-        </div>
-        
-        <h3 style="color: #333;">User Feedback</h3>
-        <p style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">{user_feedback}</p>
-    </body>
-    </html>
-    """
+        # Create the email
+        subject = "User Feedback from Bible Quest"
+        body = f"""
+        <html>
+        <body>
+            <h2 style="color: #4CAF50;">User Feedback from Bible Search Engine</h2>
+            
+            <h3 style="color: #333;">User Details</h3>
+            <p><strong>Name:</strong> {user_name}</p>
+            
+            <h3 style="color: #333;">User Query</h3>
+            <p style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">{user_query}</p>
+            
+            <h3 style="color: #333;">Retrieved Context</h3>
+            <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+                {retrieved_context.replace("\n", "<br>")}
+            </div>
+            
+            <h3 style="color: #333;">AI Response</h3>
+            <div style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">
+                {cohere_response.replace("\n", "<br>")}
+            </div>
+            
+            <h3 style="color: #333;">User Feedback</h3>
+            <p style="background-color: #f9f9f9; padding: 10px; border-radius: 5px;">{user_feedback}</p>
+        </body>
+        </html>
+        """
 
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = receiver_email
-    message["Subject"] = subject
-    message.attach(MIMEText(body, "html"))
+        message = MIMEMultipart()
+        message["From"] = sender_email
+        message["To"] = receiver_email
+        message["Subject"] = subject
+        message.attach(MIMEText(body, "html"))
 
-    # Send the email
-    try:
-        with smtplib.SMTP("smtp.gmail.com", 587) as server:
-            server.starttls()
-            server.login(sender_email, password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
-        st.success("Thank you for your feedback! It has been sent successfully.")
-    except Exception as e:
-        st.error(f"Failed to send feedback. Error: {e}")
+        # Send the email
+        try:
+            with smtplib.SMTP("smtp.gmail.com", 587) as server:
+                server.starttls()
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message.as_string())
+            st.success("Thank you for your feedback! It has been sent successfully.")
+        except Exception as e:
+            st.error(f"Failed to send feedback. Error: {e}")
 
 # App title and description
 st.markdown(
